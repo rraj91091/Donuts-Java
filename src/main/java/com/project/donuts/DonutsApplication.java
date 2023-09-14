@@ -1,4 +1,4 @@
-package com.project.donut;
+package com.project.donuts;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

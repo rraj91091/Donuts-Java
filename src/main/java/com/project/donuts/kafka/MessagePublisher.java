@@ -4,8 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CompletableFuture;
+
+@Component
 public class MessagePublisher {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -15,7 +18,7 @@ public class MessagePublisher {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public ListenableFuture<SendResult<String, String>> sendMessage(String message, String key, String topic) {
+    public CompletableFuture<SendResult<String, String>> sendMessage(String message, String key, String topic) {
         logger.info("Sending message [$message] to Topic [$topic]");
         return kafkaTemplate.send(topic, key, message);
     }

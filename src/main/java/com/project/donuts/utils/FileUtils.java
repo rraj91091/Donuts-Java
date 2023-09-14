@@ -18,7 +18,7 @@ public class FileUtils {
 
         try (Reader reader = new BufferedReader(new InputStreamReader
                 (inputStream, StandardCharsets.UTF_8))) {
-            int c = 0;
+            int c;
             while ((c = reader.read()) != -1) {
                 resultStringBuilder.append((char) c);
             }
