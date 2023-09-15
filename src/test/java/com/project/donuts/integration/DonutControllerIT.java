@@ -85,6 +85,6 @@ public class DonutControllerIT extends AbstractIntegration {
     @Transactional
     private void givenTwoTypesOfDonutsInInventory() {
         donutRepository.save(new Donut("sugar-glazed", 16.3, 3));
-        donutRepository.save(new Donut("sugar-glazed", 16.3, 3));
+        donutRepository.save(new Donut("chocolate", 16.0, 5));
     }
 }
