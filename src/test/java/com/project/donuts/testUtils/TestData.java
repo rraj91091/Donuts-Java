@@ -1,6 +1,6 @@
 package com.project.donuts.testUtils;
 
-import com.project.donuts.domain.Donut;
+import com.project.donuts.web.Donut;
 
 import java.util.Arrays;
 import java.util.List;

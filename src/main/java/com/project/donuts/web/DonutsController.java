@@ -1,9 +1,5 @@
-package com.project.donuts.controller;
+package com.project.donuts.web;
 
-import com.project.donuts.domain.Donut;
-import com.project.donuts.domain.DonutDTO;
-import com.project.donuts.domain.DonutService;
-import com.project.donuts.domain.Donuts;
 import com.project.donuts.kafka.KafkaConstants;
 import com.project.donuts.kafka.MessagePublisher;
 import org.springframework.http.HttpStatus;

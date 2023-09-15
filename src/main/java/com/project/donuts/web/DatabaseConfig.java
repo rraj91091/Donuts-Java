@@ -1,4 +1,4 @@
-package com.project.donuts.domain;
+package com.project.donuts.web;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.project.donuts.domain")
+@EnableJpaRepositories(basePackages = "com.project.donuts.web")
 public class DatabaseConfig {
 
     @Bean

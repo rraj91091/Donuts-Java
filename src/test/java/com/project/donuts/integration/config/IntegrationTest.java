@@ -1,10 +1,13 @@
-package com.project.donuts.integration;
+package com.project.donuts.integration.config;
 
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase.DatabaseProvider;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase.RefreshMode;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 @EmbeddedKafka(
         partitions = 1,
@@ -17,6 +20,7 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
+@Retention(RetentionPolicy.RUNTIME)
 public @interface IntegrationTest {
 }
 

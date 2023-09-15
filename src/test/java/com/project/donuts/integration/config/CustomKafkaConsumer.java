@@ -1,11 +1,10 @@
-package com.project.donuts.integration;
+package com.project.donuts.integration.config;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 
 import java.time.Duration;
-import java.time.temporal.TemporalUnit;
 import java.util.Map;
 
 /**

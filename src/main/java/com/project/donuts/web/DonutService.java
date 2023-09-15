@@ -1,4 +1,4 @@
-package com.project.donuts.domain;
+package com.project.donuts.web;
 
 import org.springframework.stereotype.Service;
 

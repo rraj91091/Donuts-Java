@@ -1,4 +1,4 @@
-package com.project.donuts.domain;
+package com.project.donuts.web;
 
 import java.util.List;
 

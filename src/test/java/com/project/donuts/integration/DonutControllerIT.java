@@ -1,33 +1,21 @@
 package com.project.donuts.integration;
 
-import com.project.donuts.domain.Donut;
-import com.project.donuts.domain.DonutDTO;
-import com.project.donuts.domain.DonutRepository;
-import com.project.donuts.domain.Donuts;
-import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
+import com.project.donuts.integration.config.IntegrationTest;
+import com.project.donuts.web.Donut;
+import com.project.donuts.web.DonutDTO;
+import com.project.donuts.web.DonutRepository;
+import com.project.donuts.web.Donuts;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@EmbeddedKafka(
-        partitions = 1,
-        brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"}
-)
-@AutoConfigureEmbeddedDatabase(
-        provider = AutoConfigureEmbeddedDatabase.DatabaseProvider.ZONKY,
-        refresh = AutoConfigureEmbeddedDatabase.RefreshMode.AFTER_EACH_TEST_METHOD
-)
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
-)
+@IntegrationTest
 public class DonutControllerIT extends AbstractIntegration {
 
     @Autowired

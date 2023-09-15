@@ -1,4 +1,4 @@
-package com.project.donuts.domain;
+package com.project.donuts.web;
 
 public class DonutDTO {
     private String flavour;
