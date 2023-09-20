@@ -7,11 +7,12 @@ plugins {
     id 'org.springframework.boot' version "3.1.3"
     id 'io.spring.dependency-management' version '1.1.0' // provides maven-like dependency management for gradle
     id 'application'
+    id 'jacoco'
     id 'java'
 }
 
-group 'org.project.donuts'
-version '1.0.0-SNAPSHOT'
+group = 'org.project.donuts'
+version = '1.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -65,4 +66,22 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
+
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.7
+            }
+        }
+    }
+
+    check.dependsOn jacocoTestCoverageVerification
 }
