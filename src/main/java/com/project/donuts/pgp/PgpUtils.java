@@ -45,7 +45,7 @@ public class PgpUtils {
     public static PGPSecretKeyRing generateKeys(String userId, String secretKeyPassphrase) throws PGPException, InvalidAlgorithmParameterException, NoSuchAlgorithmException {
         return PGPainless.buildKeyRing()
                 .setPrimaryKey(KeySpec.getBuilder(
-                        RSA.withLength(RsaLength._8192),
+                        RSA.withLength(RsaLength._4096),
                         KeyFlag.SIGN_DATA, KeyFlag.CERTIFY_OTHER))
                 .addSubkey(
                         KeySpec.getBuilder(ECDSA.fromCurve(EllipticCurve._P256), KeyFlag.SIGN_DATA)

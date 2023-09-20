@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PgpUtilsTest {
 
-    @Disabled("takes a long time to create keys, therefore disabled by default")
     @Test
     public void generatePgpKeys() throws PGPException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, IOException {
         String userId = "helloWorld";
