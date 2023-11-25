@@ -55,8 +55,7 @@ public class DonutControllerIT extends AbstractIntegration {
     }
 
     @Test
-    public void
-    getAllDonuts_should_fetch_all_donuts() {
+    public void getAllDonuts_should_fetch_all_donuts() {
         givenTwoTypesOfDonutsInInventory();
         Donuts response = getAllDonuts();
         assertThat(response.donuts.size()).isEqualTo(2);
