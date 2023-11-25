@@ -5,8 +5,6 @@ import com.project.donuts.web.Donut;
 import com.project.donuts.web.DonutDTO;
 import com.project.donuts.web.DonutRepository;
 import com.project.donuts.web.Donuts;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -25,53 +23,43 @@ public class DonutControllerIT extends AbstractIntegration {
 
     private final String apiVersion = "v1";
 
-    @Nested
-    @DisplayName("Tests using TestRestTemplate")
-    class UsingTestRestTemplate {
-        @Test
-        public void createDonut_should_create_new_donut_successfully() {
-            DonutDTO request = new DonutDTO("chocolate", 16.5, 4);
+    @Test
+    public void createDonut_should_create_new_donut_successfully() {
+        DonutDTO request = new DonutDTO("chocolate", 16.5, 4);
 
-            ResponseEntity<Donut> response = callCreateDonut(request);
-            Donut newDonut = response.getBody();
-            assertNotNull(newDonut);
-            assertThat(newDonut.getFlavour()).isEqualTo("chocolate");
-            assertThat(newDonut.getDiameter()).isEqualTo(16.5);
-            assertThat(newDonut.getQuantity()).isEqualTo(4);
-            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        }
-
-        @Test
-        public void sendDonuts_should_receive_request_and_return_correct_string_message() {
-            String message = "Hello World";
-            ResponseEntity<String> response = callSendDonuts(message);
-            assertThat(response.getBody()).isEqualTo("Send donuts message published successfully");
-            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        }
-
-        @Test
-        public void sendDonuts_should_publish_kafka_message_from_http_request() {
-            String message1 = "Hello World One";
-            callSendDonuts(message1);
-
-            String publishedMessage1 = sendDonutsTopicConsumer.getMessageByKey(message1);
-            assertNotNull(publishedMessage1);
-            assertThat(publishedMessage1).isEqualTo(message1);
-        }
-
-        @Test
-        public void
-        getAllDonuts_should_fetch_all_donuts() {
-            givenTwoTypesOfDonutsInInventory();
-            Donuts response = getAllDonuts();
-            assertThat(response.donuts.size()).isEqualTo(2);
-        }
+        ResponseEntity<Donut> response = callCreateDonut(request);
+        Donut newDonut = response.getBody();
+        assertNotNull(newDonut);
+        assertThat(newDonut.getFlavour()).isEqualTo("chocolate");
+        assertThat(newDonut.getDiameter()).isEqualTo(16.5);
+        assertThat(newDonut.getQuantity()).isEqualTo(4);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
-    @Nested
-    @DisplayName("Tests using TestWebClient")
-    class UsingTestWebClient {
-        //TODO create another set of tests using WebTestClient
+    @Test
+    public void sendDonuts_should_receive_request_and_return_correct_string_message() {
+        String message = "Hello World";
+        ResponseEntity<String> response = callSendDonuts(message);
+        assertThat(response.getBody()).isEqualTo("Send donuts message published successfully");
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void sendDonuts_should_publish_kafka_message_from_http_request() {
+        String message1 = "Hello World One";
+        callSendDonuts(message1);
+
+        String publishedMessage1 = sendDonutsTopicConsumer.getMessageByKey(message1);
+        assertNotNull(publishedMessage1);
+        assertThat(publishedMessage1).isEqualTo(message1);
+    }
+
+    @Test
+    public void
+    getAllDonuts_should_fetch_all_donuts() {
+        givenTwoTypesOfDonutsInInventory();
+        Donuts response = getAllDonuts();
+        assertThat(response.donuts.size()).isEqualTo(2);
     }
 
     private ResponseEntity<Donut> callCreateDonut(DonutDTO newDonut) {

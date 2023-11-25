@@ -14,8 +14,8 @@ import java.lang.annotation.RetentionPolicy;
         brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"}
 )
 @AutoConfigureEmbeddedDatabase(
-        provider = AutoConfigureEmbeddedDatabase.DatabaseProvider.ZONKY,
-        refresh = AutoConfigureEmbeddedDatabase.RefreshMode.AFTER_EACH_TEST_METHOD
+        provider = DatabaseProvider.ZONKY,
+        refresh = RefreshMode.AFTER_EACH_TEST_METHOD
 )
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT

@@ -12,7 +12,7 @@ plugins {
 }
 
 group = 'org.project.donuts'
-version = '1.0.0-SNAPSHOT'
+version = '0.1.0'
 
 repositories {
     mavenCentral()
@@ -27,6 +27,7 @@ dependencyManagement {
 dependencies {
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     // database
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -45,9 +46,10 @@ dependencies {
 
     // test libraries
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'junit:junit:4.13.1'
-    testImplementation 'io.mockk:mockk:1.12.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    testImplementation 'org.mockito:mockito-core:5.7.0'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+    // testImplementation 'io.mockk:mockk:1.12.0' only for kotlin
 
     // test database
     testImplementation 'io.zonky.test:embedded-postgres:2.0.3'
@@ -62,11 +64,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
-
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
@@ -84,4 +81,41 @@ jacocoTestCoverageVerification {
     }
 
     check.dependsOn jacocoTestCoverageVerification
+}
+
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+tasks.withType(Test).configureEach {
+    testLogging {
+        events TestLogEvent.FAILED,
+                TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED,
+                TestLogEvent.STANDARD_ERROR
+        exceptionFormat TestExceptionFormat.FULL
+        showExceptions true
+        showCauses true
+        showStackTraces true
+        showStandardStreams = false
+
+        // set options for log level DEBUG and INFO
+        debug {
+            events TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED,
+                    TestLogEvent.STANDARD_ERROR
+            exceptionFormat TestExceptionFormat.FULL
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }
 }
