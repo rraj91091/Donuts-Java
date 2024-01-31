@@ -2,10 +2,14 @@ package com.project.donuts.web;
 
 import com.project.donuts.kafka.KafkaConstants;
 import com.project.donuts.kafka.MessagePublisher;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+// @CacheConfig(cacheNames={"donuts"}) //possible alternative to CacheConfig class
 @RestController
 @RequestMapping(value = "/v1/donuts")
 public class DonutsController {
@@ -31,6 +35,8 @@ public class DonutsController {
         return "Send donuts message published successfully";
     }
 
+    // @CachePut(value="donuts", condition="#result.donuts.size()<50") // run function and cache results if condition is met
+    @Cacheable("donuts")
     @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     public Donuts getAllDonuts() {

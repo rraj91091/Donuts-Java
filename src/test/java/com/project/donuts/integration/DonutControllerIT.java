@@ -61,6 +61,13 @@ public class DonutControllerIT extends AbstractIntegration {
         assertThat(response.donuts.size()).isEqualTo(2);
     }
 
+    @Test
+    public void getAllDonuts_should_fetch_from_cache_on_second_call() {
+        givenTwoTypesOfDonutsInInventory();
+        getAllDonuts();
+        getAllDonuts();
+    }
+
     private ResponseEntity<Donut> callCreateDonut(DonutDTO newDonut) {
         HttpEntity<DonutDTO> request = new HttpEntity<>(newDonut);
         String createDonutEndpoint = "/" + apiVersion + "/donuts/create";
