@@ -1,0 +1,49 @@
+version: "3.7"
+services:
+#  app:
+#    container_name: donuts_app
+#    restart: on-failure
+#    image: "donuts-app:latest"
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_DATASOURCE_JDBC_URL=jdbc:postgresql://postgresdb:5432/postgres
+#    networks:
+#      - backend
+#    depends_on:
+#      - postgresdb
+#      - kafka
+
+  postgresdb:
+    image: "postgres:16-alpine"
+    container_name: postgres_db
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  kafka:
+    container_name: kafka_server
+    image: "bitnami/kafka:3.6"
+    ports:
+      - "9092:9092"
+    networks:
+      - backend
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: "zookeeper:3.9.1"
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  backend:
