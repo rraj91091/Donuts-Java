@@ -1,9 +1,9 @@
 version: "3.7"
 services:
 #  app:
-#    container_name: donuts_app
-#    restart: on-failure
+#    container_name: donuts-app
 #    image: "donuts-app:latest"
+#    restart: on-failure
 #    ports:
 #      - "8080:8080"
 #    environment:
@@ -15,8 +15,8 @@ services:
 #      - kafka
 
   postgresdb:
+    container_name: postgresdb
     image: "postgres:16-alpine"
-    container_name: postgres_db
     restart: on-failure
     environment:
       - POSTGRES_USER=postgres
@@ -28,18 +28,32 @@ services:
     networks:
       - backend
 
+  zookeeper:
+    container_name: zookeeper
+    image: "zookeeper:3.9.1"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "22181:2181"
+    networks:
+      - backend
+
   kafka:
-    container_name: kafka_server
+    container_name: kafka
     image: "bitnami/kafka:3.6"
     ports:
       - "9092:9092"
-    networks:
-      - backend
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: EXTERNAL_SAME_HOST://:9092,INTERNAL://:29092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL_SAME_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL_SAME_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
     depends_on:
       - zookeeper
-
-  zookeeper:
-    image: "zookeeper:3.9.1"
+    networks:
+      - backend
 
 volumes:
   db:
