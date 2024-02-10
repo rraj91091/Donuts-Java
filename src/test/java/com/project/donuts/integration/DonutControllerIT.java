@@ -5,6 +5,7 @@ import com.project.donuts.web.Donut;
 import com.project.donuts.web.DonutDTO;
 import com.project.donuts.web.DonutRepository;
 import com.project.donuts.web.Donuts;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -22,6 +23,11 @@ public class DonutControllerIT extends AbstractIntegration {
     private DonutRepository donutRepository;
 
     private final String apiVersion = "v1";
+
+    @BeforeEach
+    public void init() {
+        donutRepository.deleteAll();
+    }
 
     @Test
     public void createDonut_should_create_new_donut_successfully() {
@@ -59,13 +65,6 @@ public class DonutControllerIT extends AbstractIntegration {
         givenTwoTypesOfDonutsInInventory();
         Donuts response = getAllDonuts();
         assertThat(response.donuts.size()).isEqualTo(2);
-    }
-
-    @Test
-    public void getAllDonuts_should_fetch_from_cache_on_second_call() {
-        givenTwoTypesOfDonutsInInventory();
-        getAllDonuts();
-        getAllDonuts();
     }
 
     private ResponseEntity<Donut> callCreateDonut(DonutDTO newDonut) {
