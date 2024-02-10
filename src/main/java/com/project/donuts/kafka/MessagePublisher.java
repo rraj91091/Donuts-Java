@@ -19,7 +19,7 @@ public class MessagePublisher {
     }
 
     public CompletableFuture<SendResult<String, String>> sendMessage(String message, String key, String topic) {
-        logger.info("Sending message [$message] to Topic [$topic]");
+        logger.info("Sending message [" + message + "] to Topic [" + topic + "]");
         return kafkaTemplate.send(topic, key, message);
     }
 }

@@ -47,7 +47,7 @@ public class AbstractIntegration {
         assertNotNull(testRestTemplate, "Warning: testRestTemplate is null!");
         assertNotNull(embeddedKafkaBroker, "Warning: embeddedKafkaBroker is null!");
 
-        sendDonutsTopicConsumer = configureConsumer(SEND_DONUTS_TOPIC, GROUP_ID);
+        sendDonutsTopicConsumer = configureConsumer(SEND_DONUTS_TOPIC);
     }
 
     @AfterAll
@@ -55,8 +55,8 @@ public class AbstractIntegration {
         sendDonutsTopicConsumer.consumer.close();
     }
 
-    private CustomKafkaConsumer<String, String> configureConsumer(String topic, String groupId) {
-        Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(groupId, "true", embeddedKafkaBroker);
+    private CustomKafkaConsumer<String, String> configureConsumer(String topic) {
+        Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(GROUP_ID, "true", embeddedKafkaBroker);
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         Consumer<String, String> consumer = new DefaultKafkaConsumerFactory<String, String>(consumerProps).createConsumer();
