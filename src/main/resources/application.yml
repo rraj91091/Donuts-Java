@@ -1,3 +1,7 @@
+info:
+  app:
+    version: {project.version}
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
@@ -26,6 +30,20 @@ spring:
     kafka:
       brokers:
         property: spring.kafka.bootstrap-servers
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health, flyway, metrics, caches, prometheus
+  endpoint:
+    info:
+      env:
+        enabled: true
+      java:
+        enabled: true
+    health:
+      show-details: always #alternative: when_authorized
 
 aws:
   credentials:

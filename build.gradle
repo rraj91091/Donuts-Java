@@ -9,6 +9,11 @@ plugins {
     id 'application'
     id 'jacoco'
     id 'java'
+    id "com.gorylenko.gradle-git-properties" version "2.4.1"
+}
+
+springBoot {
+    buildInfo()
 }
 
 group = 'org.project.donuts'
@@ -28,6 +33,7 @@ dependencies {
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // database
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
