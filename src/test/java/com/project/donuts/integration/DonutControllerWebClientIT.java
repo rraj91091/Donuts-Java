@@ -15,6 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -45,10 +46,11 @@ public class DonutControllerWebClientIT {
 
     @Test
     public void createDonut_should_create_new_donut_successfully() {
+        String id = UUID.randomUUID().toString();
         when(donutService.createDonut(any())).thenReturn(new Donut("chocolate", 16.5, 4));
 
         webTestClient.post()
-                .uri(URI.create("/" + apiVersion + "/donuts/create"))
+                .uri(URI.create("/" + apiVersion + "/donuts/create/" + id))
                 .bodyValue(new DonutDTO("chocolate", 16.5, 4))
                 .exchange()
                 .expectStatus().isCreated()

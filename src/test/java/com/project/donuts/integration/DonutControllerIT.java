@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -69,7 +71,8 @@ public class DonutControllerIT extends AbstractIntegration {
 
     private ResponseEntity<Donut> callCreateDonut(DonutDTO newDonut) {
         HttpEntity<DonutDTO> request = new HttpEntity<>(newDonut);
-        String createDonutEndpoint = "/" + apiVersion + "/donuts/create";
+        String id = UUID.randomUUID().toString();
+        String createDonutEndpoint = "/" + apiVersion + "/donuts/create/" + id;
         String url = "http://localhost:" + port + createDonutEndpoint;
         return testRestTemplate.postForEntity(url, request, Donut.class);
     }

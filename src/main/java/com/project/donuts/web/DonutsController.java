@@ -22,9 +22,9 @@ public class DonutsController {
         this.messagePublisher = messagePublisher;
     }
 
-    @PostMapping(value = "/create", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/create/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Donut createDonut(@RequestBody DonutDTO donut) {
+    public Donut createDonut(@RequestBody DonutDTO donut, @PathVariable(name = "id") String id) {
         return donutService.createDonut(donut);
     }
 
