@@ -3,6 +3,7 @@ package com.project.donuts.web;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @Service
@@ -28,5 +29,10 @@ public class DonutService {
     public List<Donut> getDonuts() {
         logger.info("Fetching All Donuts from Donuts Repository");
         return donutRepository.findAll();
+    }
+
+    public Donut getDonutById(UUID id) {
+        logger.info("Fetching Donut from Donuts Repository using ID");
+        return donutRepository.findById(id).orElseThrow();
     }
 }
