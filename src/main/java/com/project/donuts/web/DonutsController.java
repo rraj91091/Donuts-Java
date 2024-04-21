@@ -2,8 +2,6 @@ package com.project.donuts.web;
 
 import com.project.donuts.kafka.KafkaConstants;
 import com.project.donuts.kafka.MessagePublisher;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

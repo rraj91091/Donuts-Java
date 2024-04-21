@@ -35,7 +35,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: info, health, flyway, metrics, caches, prometheus
+        include: info, health, flyway, metrics, caches, prometheus # or '*' for all endpoints
   endpoint:
     info:
       env:

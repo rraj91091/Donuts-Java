@@ -5,12 +5,11 @@ import com.project.donuts.web.DonutService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import static com.project.donuts.kafka.KafkaConstants.*;
+import static com.project.donuts.kafka.KafkaConstants.GROUP_ID;
+import static com.project.donuts.kafka.KafkaConstants.RECEIVE_DONUTS_TOPIC;
 
 /**
  * TODO - enhance consumer to get message key as well
@@ -34,6 +33,6 @@ public class MessageConsumer {
             @Payload String message
     ) {
         logger.info("Received message [" + message + "] from Topic [" + RECEIVE_DONUTS_TOPIC + "]");
-        donutService.createDonut(new DonutDTO("flavour",5.0,2));
+        donutService.createDonut(new DonutDTO("flavour", 5.0, 2));
     }
 }
