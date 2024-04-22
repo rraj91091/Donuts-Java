@@ -2,6 +2,7 @@ package com.project.donuts.web;
 
 import com.project.donuts.kafka.KafkaConstants;
 import com.project.donuts.kafka.MessagePublisher;
+import jakarta.validation.Valid;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +28,7 @@ public class DonutsController {
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<Donut> createDonut(@RequestBody DonutDTO donut) {
+    public ResponseEntity<Donut> createDonut(@Valid @RequestBody DonutDTO donut) {
         Donut newDonut = donutService.createDonut(donut);
 
         // add 'location' header so the consumer knows how to retrieve the created donut
