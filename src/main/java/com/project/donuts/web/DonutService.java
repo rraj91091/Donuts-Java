@@ -33,6 +33,6 @@ public class DonutService {
 
     public Donut getDonutById(UUID id) {
         logger.info("Fetching Donut from Donuts Repository using ID");
-        return donutRepository.findById(id).orElseThrow();
+        return donutRepository.findById(id).orElse(null);
     }
 }

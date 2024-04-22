@@ -1,28 +1,28 @@
 package com.project.donuts.web;
 
+import java.time.LocalDateTime;
+
 public class ErrorResponseDTO {
 
-    private String message;
-    private Integer status;
+    private final LocalDateTime timestamp;
+    private final String message;
+    private final String details;
 
-    public ErrorResponseDTO(String message, Integer status) {
+    public ErrorResponseDTO(LocalDateTime timestamp, String message, String details) {
+        this.timestamp = timestamp;
         this.message = message;
-        this.status = status;
+        this.details = details;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
+    public String getDetails() {
+        return details;
     }
 }

@@ -1,10 +1,7 @@
 package com.project.donuts.integration;
 
 import com.project.donuts.integration.config.IntegrationTest;
-import com.project.donuts.web.Donut;
-import com.project.donuts.web.DonutDTO;
-import com.project.donuts.web.DonutRepository;
-import com.project.donuts.web.Donuts;
+import com.project.donuts.web.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @IntegrationTest
 public class DonutControllerIT extends AbstractIntegration {
@@ -24,6 +20,7 @@ public class DonutControllerIT extends AbstractIntegration {
     private DonutRepository donutRepository;
 
     private final String apiVersion = "v1";
+    private final String donutsEndpoint = "/" + apiVersion + "/donuts";
 
     @BeforeEach
     public void init() {
@@ -67,14 +64,21 @@ public class DonutControllerIT extends AbstractIntegration {
         assertThat(response.getBody().donuts.size()).isEqualTo(2);
     }
 
+    @Test
+    public void getDonut_should_return_donut() {
+        // given
+        Donut donut = donutRepository.save(new Donut("sugar-glazed", 16.3, 3));
+        // when
+        ResponseEntity<Donut> response = getDonutById(donut.getId());
+        // then
+        assertNotNull(response.getBody());
+    }
+
     private ResponseEntity<Donut> callCreateDonut(DonutDTO newDonut) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("username", "password");
         HttpEntity<DonutDTO> request = new HttpEntity<>(newDonut, headers);
-
-        String id = UUID.randomUUID().toString();
-        String createDonutEndpoint = "/" + apiVersion + "/donuts";
-        String url = "http://localhost:" + port + createDonutEndpoint;
+        String url = "http://localhost:" + port + donutsEndpoint;
 
         return testRestTemplate.exchange(url, HttpMethod.POST, request, Donut.class);
     }
@@ -83,7 +87,6 @@ public class DonutControllerIT extends AbstractIntegration {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("username", "password");
         HttpEntity<String> request = new HttpEntity<>("String", headers);
-
         String sendDonutsEndpoint = "/" + apiVersion + "/donuts/send";
         String url = "http://localhost:" + port + sendDonutsEndpoint + "?message=" + message;
 
@@ -94,10 +97,19 @@ public class DonutControllerIT extends AbstractIntegration {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth("username", "password");
         HttpEntity<String> request = new HttpEntity<>("String", headers);
+        String url = "http://localhost:" + port + donutsEndpoint;
 
-        String getAllDonutsEndpoint = "/" + apiVersion + "/donuts";
-        String url = "http://localhost:" + port + getAllDonutsEndpoint;
         return testRestTemplate.exchange(url, HttpMethod.GET, request, Donuts.class);
+    }
+
+    private ResponseEntity<Donut> getDonutById(UUID id) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth("username", "password");
+        HttpEntity<String> request = new HttpEntity<>("String", headers);
+        String donutEndpoint = "/" + apiVersion + "/donuts/{id}";
+        String url = "http://localhost:" + port + donutEndpoint.replace("{id}",id.toString());
+
+        return testRestTemplate.exchange(url, HttpMethod.GET, request, Donut.class);
     }
 
     @Transactional
@@ -105,4 +117,5 @@ public class DonutControllerIT extends AbstractIntegration {
         donutRepository.save(new Donut("sugar-glazed", 16.3, 3));
         donutRepository.save(new Donut("chocolate", 16.0, 5));
     }
+
 }

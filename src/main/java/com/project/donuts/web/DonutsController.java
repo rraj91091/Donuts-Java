@@ -50,7 +50,11 @@ public class DonutsController {
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(value = HttpStatus.OK)
     public Donut getDonut(@PathVariable(name = "id") String id) {
-        return donutService.getDonutById(UUID.fromString(id));
+        Donut donut = donutService.getDonutById(UUID.fromString(id));
+        if (donut == null) {
+            throw new DonutNotFoundException("Donut Not Found for ID: " + id);
+        }
+        return donut;
     }
 
     @PostMapping(value = "/send", produces = {MediaType.TEXT_PLAIN_VALUE})
