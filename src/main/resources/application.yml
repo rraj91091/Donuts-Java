@@ -30,6 +30,9 @@ spring:
     kafka:
       brokers:
         property: spring.kafka.bootstrap-servers
+  security:
+    name: username
+    password: password
 
 management:
   endpoints:

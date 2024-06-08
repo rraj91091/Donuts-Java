@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.Locale;
 import java.util.UUID;
 
+// @CrossOrigin(origins = "http://localhost:8080") //allow CORS for all or specific origins
 // @CacheConfig(cacheNames={"donuts"}) //possible alternative to CacheConfig class
 @RestController
 @RequestMapping(value = "/v1/donuts")
