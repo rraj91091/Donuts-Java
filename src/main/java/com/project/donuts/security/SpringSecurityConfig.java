@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -31,24 +31,6 @@ public class SpringSecurityConfig {
                 .build();
     }
 
-    // for Basic Authentication
-    @Bean
-    public InMemoryUserDetailsManager configureUserDetailsManager() {
-        UserDetails userDetails = User.builder()
-                .passwordEncoder(input -> passwordEncoder().encode(input))
-                .username("username")
-                .password("password")
-                .roles("USER", "ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     //enable CORS globally
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -59,6 +41,33 @@ public class SpringSecurityConfig {
                         .allowedOrigins("*");
             }
         };
+    }
+
+    // define a password encoder for storing passwords
+    // recommended to use adaptive 1-way hashing functions with Work Factor of 1 second
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // for Basic Authentication
+    @Bean
+    public UserDetailsService userDetailsService() {
+        var user = User.builder()
+                .passwordEncoder(pw -> passwordEncoder().encode(pw))
+                .username("user")
+                .password("password")
+                .roles("USER")
+                .build();
+
+        var admin = User.builder()
+                .passwordEncoder(pw -> passwordEncoder().encode(pw))
+                .username("admin")
+                .password("password")
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
     }
 
 }

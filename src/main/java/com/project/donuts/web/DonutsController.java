@@ -75,7 +75,7 @@ public class DonutsController {
     @ResponseStatus(value = HttpStatus.OK)
     public String internationalization() {
         Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage("message.good-morning",null,"Default Message", locale);
+        return messageSource.getMessage("message.good-morning", null, "Default Message", locale);
     }
 
 }

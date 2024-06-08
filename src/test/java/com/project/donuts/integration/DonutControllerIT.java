@@ -76,7 +76,7 @@ public class DonutControllerIT extends AbstractIntegration {
 
     private ResponseEntity<Donut> callCreateDonut(DonutDTO newDonut) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("username", "password");
+        headers.setBasicAuth("user", "password");
         HttpEntity<DonutDTO> request = new HttpEntity<>(newDonut, headers);
         String url = "http://localhost:" + port + donutsEndpoint;
 
@@ -85,7 +85,7 @@ public class DonutControllerIT extends AbstractIntegration {
 
     private ResponseEntity<String> callSendDonuts(String message) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("username", "password");
+        headers.setBasicAuth("user", "password");
         HttpEntity<String> request = new HttpEntity<>("String", headers);
         String sendDonutsEndpoint = "/" + apiVersion + "/donuts/send";
         String url = "http://localhost:" + port + sendDonutsEndpoint + "?message=" + message;
@@ -95,7 +95,7 @@ public class DonutControllerIT extends AbstractIntegration {
 
     private ResponseEntity<Donuts> getAllDonuts() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("username", "password");
+        headers.setBasicAuth("user", "password");
         HttpEntity<String> request = new HttpEntity<>("String", headers);
         String url = "http://localhost:" + port + donutsEndpoint;
 
@@ -104,7 +104,7 @@ public class DonutControllerIT extends AbstractIntegration {
 
     private ResponseEntity<Donut> getDonutById(UUID id) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("username", "password");
+        headers.setBasicAuth("user", "password");
         HttpEntity<String> request = new HttpEntity<>("String", headers);
         String donutEndpoint = "/" + apiVersion + "/donuts/{id}";
         String url = "http://localhost:" + port + donutEndpoint.replace("{id}",id.toString());
